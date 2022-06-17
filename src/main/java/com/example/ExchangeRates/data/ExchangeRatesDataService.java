@@ -14,8 +14,6 @@ public interface ExchangeRatesDataService {
 
     List<Currency> getCurrencies();
 
-    Map<Currency, BigDecimal> getRates();
-
-    BigDecimal getCurrencyRate(String currency);
+    BigDecimal getCurrencyRate(String symbolCurrency);
 
 }

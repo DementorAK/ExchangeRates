@@ -38,5 +38,6 @@ out/
 
 ### Other ###
 *.log
-*.mv.db
+*.log.*.gz
+*.db
 gradle/wrapper/gradle-wrapper.jar

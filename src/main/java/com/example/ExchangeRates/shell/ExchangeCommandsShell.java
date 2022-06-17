@@ -49,10 +49,10 @@ public class ExchangeCommandsShell {
         BigDecimal rate;
         try {
             rate = exchangeRatesDataService.getCurrencyRate(currency);
+            return rate.toString();
         } catch (Exception e) {
             return "<no information>";
         }
-        return rate.toString();
     }
 
     @ShellMethod("Close program")
