@@ -6,13 +6,11 @@ import com.example.ExchangeRates.DTO.RateRecord;
 import com.example.ExchangeRates.data.CurrencyRepository;
 import com.example.ExchangeRates.data.ExchangeRatesDataService;
 import com.example.ExchangeRates.data.RatesRepository;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ExchangeRatesDataServiceImpl implements ExchangeRatesDataService {
@@ -20,7 +18,7 @@ public class ExchangeRatesDataServiceImpl implements ExchangeRatesDataService {
     private final RatesRepository ratesRepository;
     private final CurrencyRepository currencyRepository;
 
-    public ExchangeRatesDataServiceImpl(JdbcTemplate jdbcTemplate, RatesRepository ratesRepository, CurrencyRepository currencyRepository) {
+    public ExchangeRatesDataServiceImpl(RatesRepository ratesRepository, CurrencyRepository currencyRepository) {
         this.ratesRepository = ratesRepository;
         this.currencyRepository = currencyRepository;
     }
@@ -47,4 +45,5 @@ public class ExchangeRatesDataServiceImpl implements ExchangeRatesDataService {
         RateRecord rateRecord = ratesRepository.findFirstByCurrencySymbolIgnoreCaseOrderByDateDesc(symbolCurrency);
         return rateRecord.getRate();
     }
+
 }

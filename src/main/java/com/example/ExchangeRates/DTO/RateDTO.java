@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 
 public class RateDTO {
 
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MMMM.yyyy");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
     private String txt;
     private BigDecimal rate;
@@ -39,6 +39,17 @@ public class RateDTO {
         } catch (ParseException e) {
             return new Date(System.currentTimeMillis());
         }
+    }
+
+    public RateDTO() {
+    }
+
+    public RateDTO(String txt, String cc, Short r030, BigDecimal rate, String exchangedate) {
+        this.txt = txt;
+        this.rate = rate;
+        this.cc = cc;
+        this.r030 = r030;
+        this.exchangedate = exchangedate;
     }
 
     @Override

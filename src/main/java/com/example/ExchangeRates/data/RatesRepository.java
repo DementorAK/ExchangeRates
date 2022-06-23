@@ -11,6 +11,7 @@ public interface RatesRepository extends CrudRepository<RateRecord, Long> {
     List<RateRecord> findByCurrency(Currency currency);
 
     RateRecord findFirstByCurrencySymbolIgnoreCaseOrderByDateDesc(String symbol);
+    List<RateRecord> findByCurrencySymbolIgnoreCaseOrderByDateDesc(String symbol);
 
     boolean existsRateRecordByCurrencyAndDate(Currency currency, Date date);
 }
