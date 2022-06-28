@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,23 +29,46 @@ public class ExchangeRatesDataServiceImpl implements ExchangeRatesDataService {
     @Transactional
     public void save(List<RateDTO> rates) {
         for (RateDTO rate: rates) {
-            Currency currency = new Currency(rate.getR030(), rate.getCC(), rate.getTxt());
+            Currency currency = new Currency(rate.getR030(), rate.getCc(), rate.getTxt());
             if (!currencyRepository.existsById(currency.getCode()))
                 currencyRepository.save(currency);
-            if (!ratesRepository.existsRateRecordByCurrencyAndDate(currency, rate.getExchangeDate()))
-                ratesRepository.save(new RateRecord(currency, rate.getExchangeDate(), rate.getRate()));
+            if (!ratesRepository.existsRateRecordByCurrencyAndDate(currency, rate.getExchangedate()))
+                ratesRepository.save(new RateRecord(currency, rate.getExchangedate(), rate.getRate()));
         }
     }
 
     @Override
     public List<Currency> getCurrencies() {
-        return (List<Currency>) currencyRepository.findAll();
+        return currencyRepository.findByOrderBySymbolAsc();
     }
 
     @Override
     public BigDecimal getCurrencyRate(String symbolCurrency) {
         RateRecord rateRecord = ratesRepository.findFirstByCurrencySymbolIgnoreCaseOrderByDateDesc(symbolCurrency);
         return rateRecord.getRate();
+    }
+
+    @Override
+    public List<RateDTO> getLastRates() {
+
+        List<RateRecord> records = ratesRepository.getLastRates();
+
+        List<RateDTO> result = new ArrayList<>();
+        for (RateRecord record: records) {
+            result.add(new RateDTO(
+                    record.getCurrency().getDescription(),
+                    record.getCurrency().getSymbol(),
+                    record.getCurrency().getCode(),
+                    record.getRate(),
+                    record.getDate().toString()));
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<RateRecord> getRatesInRange(Currency currency, Date dateStart, Date dateEnd) {
+        return ratesRepository.findByCurrencyAndDateBetweenOrderByDate(currency, dateStart, dateEnd);
     }
 
 }

@@ -8,17 +8,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.shell.jline.InteractiveShellApplicationRunner;
-import org.springframework.shell.jline.ScriptShellApplicationRunner;
 
 import java.util.List;
 import java.util.Optional;
 
-@SpringBootTest(properties = {
-		InteractiveShellApplicationRunner
-				.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
-		ScriptShellApplicationRunner
-				.SPRING_SHELL_SCRIPT_ENABLED + "=false"})
+@SpringBootTest
 class ExchangeRatesApplicationTests {
 
 	@Autowired

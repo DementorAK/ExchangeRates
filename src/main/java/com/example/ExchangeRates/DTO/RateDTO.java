@@ -15,6 +15,13 @@ public class RateDTO {
     private Short r030;
     private String exchangedate;
 
+    private String enname;
+    private Short units;
+    private BigDecimal rate_per_unit;
+    private String group;
+    private String calcdate;
+
+
     public String getTxt() {
         return txt;
     }
@@ -23,7 +30,7 @@ public class RateDTO {
         return rate;
     }
 
-    public String getCC() {
+    public String getCc() {
         return cc;
     }
 
@@ -31,7 +38,7 @@ public class RateDTO {
         return r030;
     }
 
-    public Date getExchangeDate() {
+    public Date getExchangedate() {
         if (exchangedate==null || exchangedate.isEmpty())
             return new Date(System.currentTimeMillis());
         try {
@@ -39,6 +46,11 @@ public class RateDTO {
         } catch (ParseException e) {
             return new Date(System.currentTimeMillis());
         }
+    }
+
+    @Override
+    public String toString() {
+        return cc + " " + txt + ", rate=" + rate;
     }
 
     public RateDTO() {
@@ -52,8 +64,16 @@ public class RateDTO {
         this.exchangedate = exchangedate;
     }
 
-    @Override
-    public String toString() {
-        return cc + " " + txt + ", rate=" + rate;
+    public RateDTO(String txt, BigDecimal rate, String cc, Short r030, String exchangedate, String enname, Short units, BigDecimal rate_per_unit, String group, String calcdate) {
+        this.txt = txt;
+        this.rate = rate;
+        this.cc = cc;
+        this.r030 = r030;
+        this.exchangedate = exchangedate;
+        this.enname = enname;
+        this.units = units;
+        this.rate_per_unit = rate_per_unit;
+        this.group = group;
+        this.calcdate = calcdate;
     }
 }

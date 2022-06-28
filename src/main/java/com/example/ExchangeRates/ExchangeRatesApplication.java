@@ -2,6 +2,8 @@ package com.example.ExchangeRates;
 
 import com.example.ExchangeRates.DTO.Currency;
 import com.example.ExchangeRates.DTO.RateRecord;
+import com.example.ExchangeRates.gui.JavaFxApplication;
+import javafx.application.Application;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +15,11 @@ import org.springframework.web.client.RestTemplate;
 public class ExchangeRatesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ExchangeRatesApplication.class, args);
+		// start Shell-interface
+		//SpringApplication.run(ExchangeRatesApplication.class, args);
+
+		// start GUI-interface
+		Application.launch(JavaFxApplication.class, args);
 	}
 
 	@Bean

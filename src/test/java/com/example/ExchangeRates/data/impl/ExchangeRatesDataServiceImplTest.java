@@ -2,25 +2,20 @@ package com.example.ExchangeRates.data.impl;
 
 import com.example.ExchangeRates.DTO.Currency;
 import com.example.ExchangeRates.DTO.RateDTO;
+import com.example.ExchangeRates.DTO.RateRecord;
 import com.example.ExchangeRates.data.ExchangeRatesDataService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.shell.jline.InteractiveShellApplicationRunner;
-import org.springframework.shell.jline.ScriptShellApplicationRunner;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(properties = {
-        "spring.datasource.url=jdbc:h2:mem:tesdb",
-        InteractiveShellApplicationRunner
-                .SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
-        ScriptShellApplicationRunner
-                .SPRING_SHELL_SCRIPT_ENABLED + "=false"})
+@SpringBootTest(properties = {"spring.datasource.url=jdbc:h2:mem:tesdb"})
 class ExchangeRatesDataServiceImplTest {
 
     static List<RateDTO> testRates;
@@ -62,6 +57,37 @@ class ExchangeRatesDataServiceImplTest {
         save();
         BigDecimal rate = exchangeRatesDataService.getCurrencyRate("USD");
         assertNotNull(rate);
-        assertEquals(BigDecimal.valueOf(28).setScale(2), rate);
+        assertEquals(0, BigDecimal.valueOf(28).compareTo(rate));
+    }
+
+    @Test
+    void getLastRates() {
+        save();
+        List<RateDTO> rates = exchangeRatesDataService.getLastRates();
+        assertNotNull(rates);
+        assertEquals(2, rates.size());
+    }
+
+    @Test
+    void getRatesInRange() {
+
+        save();
+
+        Currency euro = new Currency((short) 978, "EUR", "Евро");
+
+        List<RateRecord> records = exchangeRatesDataService.getRatesInRange(
+                euro,
+                Date.valueOf("2020-01-01"),
+                Date.valueOf("2020-12-31"));
+        assertNotNull(records);
+        assertEquals(0, records.size());
+
+        records = exchangeRatesDataService.getRatesInRange(
+                euro,
+                Date.valueOf("2022-01-01"),
+                Date.valueOf("2022-12-31"));
+        assertNotNull(records);
+        assertEquals(4, records.size());
+
     }
 }

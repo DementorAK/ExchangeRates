@@ -20,7 +20,7 @@ public class RateRecord {
     @Column
     private Date date;
 
-    @Column
+    @Column(precision=15, scale=8)
     private BigDecimal rate;
 
     public RateRecord(long id, Currency currency, Date date, BigDecimal rate) {

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ExchangeRates.gui.FxController">
+
+      <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <Tab id="tabTable" text="Table">
+              <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0">
+                      <Image url="@/static/list.png" />
+                  </ImageView>
+              </graphic>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <TableView fx:id="currencies" editable="true" layoutY="33.0" prefHeight="338.0" prefWidth="600.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="33.0">
+                  <columns>
+                      <TableColumn id="cc" fx:id="cc" prefWidth="60.0" text="Code" />
+                      <TableColumn id="currency" fx:id="currency" prefWidth="400.0" text="Currency" />
+                      <TableColumn id="rate" fx:id="rate" prefWidth="125.0" text="Rate" />
+                  </columns>
+                   <effect>
+                      <Glow />
+                   </effect>
+                </TableView>
+                <TextField fx:id="filter" layoutX="201.0" layoutY="2.0" prefHeight="25.0" prefWidth="397.0" AnchorPane.leftAnchor="201.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                <Label layoutX="132.0" layoutY="6.0" text="Find in table" AnchorPane.leftAnchor="132.0" AnchorPane.topAnchor="6.0" />
+                <Button id="btnLoad" layoutX="18.0" layoutY="2.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#loadNewData" prefHeight="17.0" prefWidth="120.0" text="Load new data" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" wrapText="true" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="2.0">
+                   <graphic>
+                      <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+
+                              <Image url="@/static/newLoad.png" />
+
+                      </ImageView>
+                   </graphic></Button>
+             </AnchorPane>
+          </Tab>
+          <Tab id="tabDiagram" text=" Diagram ">
+              <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0">
+                      <Image url="@/static/diagram.png" />
+                  </ImageView>
+              </graphic>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                 <LineChart fx:id="diagram" animated="false" layoutY="27.0" legendVisible="false" prefHeight="344.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0">
+                      <xAxis>
+                        <CategoryAxis label="Days" side="BOTTOM" />
+                      </xAxis>
+                      <yAxis>
+                        <NumberAxis fx:id="yAxis" label="Rates" side="LEFT" />
+                      </yAxis>
+                 </LineChart>
+                 <ComboBox fx:id="currentCurrency" layoutX="84.0" layoutY="2.0" onAction="#drawNewDiagram" prefHeight="25.0" prefWidth="172.0" AnchorPane.leftAnchor="84.0" AnchorPane.rightAnchor="344.0" AnchorPane.topAnchor="2.0" />
+                 <Label layoutX="6.0" layoutY="6.0" text="Select currency" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="6.0" />
+                 <Label layoutX="262.0" layoutY="6.0" text="Period from" AnchorPane.rightAnchor="275.0" AnchorPane.topAnchor="6.0" />
+                 <DatePicker fx:id="dateFrom" layoutX="329.0" layoutY="2.0" onAction="#drawNewDiagram" prefHeight="25.0" prefWidth="120.0" AnchorPane.rightAnchor="151.0" AnchorPane.topAnchor="2.0" />
+                 <Label layoutX="457.0" layoutY="6.0" text="to" AnchorPane.rightAnchor="131.0" AnchorPane.topAnchor="6.0" />
+                 <DatePicker fx:id="dateTo" layoutX="475.0" layoutY="2.0" onAction="#drawNewDiagram" prefHeight="25.0" prefWidth="120.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+              </AnchorPane>
+          </Tab>
+      </TabPane>
+
+</AnchorPane>
