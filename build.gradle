@@ -4,6 +4,7 @@ plugins {
 	id 'java'
 	id 'application'
 	id 'org.openjfx.javafxplugin' version '0.0.13'
+	id 'org.beryx.jlink' version '2.24.4'
 }
 
 group = 'com.example'
@@ -33,4 +34,10 @@ tasks.named('test') {
 javafx {
 	version = "18.0.1"
 	modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+jlink {
+	launcher {
+		name = 'exchange'
+	}
 }

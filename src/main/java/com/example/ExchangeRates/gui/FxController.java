@@ -3,7 +3,9 @@ package com.example.ExchangeRates.gui;
 import com.example.ExchangeRates.DTO.Currency;
 import com.example.ExchangeRates.DTO.RateDTO;
 import com.example.ExchangeRates.DTO.RateRecord;
+import com.example.ExchangeRates.lang.I18n;
 import com.example.ExchangeRates.data.ExchangeRatesDataService;
+import com.example.ExchangeRates.lang.Languages;
 import com.example.ExchangeRates.web.ExchangeService;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -17,10 +19,14 @@ import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.*;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import javafx.scene.image.Image;
 
 import java.math.BigDecimal;
 import java.net.URL;
@@ -37,6 +43,8 @@ import static javafx.scene.chart.XYChart.*;
 public class FxController implements Initializable  {
 
     @FXML
+    private AnchorPane root;
+    @FXML
     private TableView<RateDTO> currencies;
     @FXML
     private TableColumn<RateDTO, String> currency;
@@ -48,6 +56,8 @@ public class FxController implements Initializable  {
     private TextField filter;
     @FXML
     private ComboBox<Currency> currentCurrency;
+    @FXML
+    private ComboBox<Languages> langBox;
     @FXML
     private DatePicker dateFrom;
     @FXML
@@ -61,9 +71,11 @@ public class FxController implements Initializable  {
     private ExchangeRatesDataService exchangeRatesDataService;
     @Autowired
     private ExchangeService exchangeService;
+    @Autowired
+    private I18n i18n;
 
     private FilteredList<RateDTO> filteredList;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -85,7 +97,8 @@ public class FxController implements Initializable  {
 
         loadValues();
 
-        filter.setPromptText("<input your filter>");
+        loadLanguages();
+
         filter.textProperty().addListener(
                 (observableValue, s, t1) ->
                         filteredList.setPredicate(
@@ -98,6 +111,18 @@ public class FxController implements Initializable  {
 
         drawDiagram();
 
+    }
+
+    private void loadLanguages() {
+        langBox.getItems().add(Languages.EN);
+        langBox.getItems().add(Languages.DE);
+        langBox.getItems().add(Languages.ES);
+        langBox.getItems().add(Languages.RU);
+        langBox.getItems().add(Languages.UA);
+        langBox.setValue(JavaFxApplication.getCurrentLanguage());
+
+        langBox.setButtonCell(new langCell());
+        langBox.setCellFactory(languagesListView -> new langCell());
     }
 
     private void loadValues() {
@@ -125,7 +150,6 @@ public class FxController implements Initializable  {
         yAxis.setAutoRanging(true);
 
         Series dataSeries = new Series();
-        dataSeries.setName("Nothing");
 
         diagram.getData().clear();
         diagram.getData().add(dataSeries);
@@ -179,6 +203,29 @@ public class FxController implements Initializable  {
 
     public void drawNewDiagram(ActionEvent actionEvent) {
         drawDiagram();
+    }
+
+    public void onSelectLang(ActionEvent actionEvent){
+        if (langBox.getValue() != JavaFxApplication.getCurrentLanguage()){
+            JavaFxApplication.setCurrentLanguage(langBox.getValue());
+            JavaFxApplication.loadScene();
+        }
+    }
+
+    private class langCell extends ListCell<Languages>{
+        @Override
+        protected void updateItem(Languages item, boolean empty) {
+            super.updateItem(item, empty);
+            if (item != null) {
+                setText(item.toString());
+                String pathIcon = i18n.getMessage("lang.icon", item.locale);
+                ImageView iconImageView = new ImageView(
+                        new Image(getClass().getResourceAsStream(pathIcon)));
+                iconImageView.setPreserveRatio(true);
+                iconImageView.setFitHeight(20);
+                setGraphic(iconImageView);
+            }
+        }
     }
 
 }
